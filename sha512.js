@@ -195,7 +195,7 @@ class Sha512 {
 
     /**
      * Logical functions [§4.1.3].
-     * @private
+     * @private.
      */
     static Σ0(x) { return Sha512.ROTR(x, 28).xor(Sha512.ROTR(x, 34)).xor(Sha512.ROTR(x, 39)); }
     static Σ1(x) { return Sha512.ROTR(x, 14).xor(Sha512.ROTR(x, 18)).xor(Sha512.ROTR(x, 41)); }
