@@ -113,14 +113,14 @@ class Aes {
      *
      * @private
      */
-    static shiftRows(s, Nb) {
-        const t = new Array(4);
-        for (let r=1; r<4; r++) {
-            for (let c=0; c<4; c++) t[c] = s[r][(c+r)%Nb];  // shift into temp copy
-            for (let c=0; c<4; c++) s[r][c] = t[c];         // and copy back
-        }          // note that this will work for Nb=4,5,6, but not 7,8 (always 4 for AES):
-        return s;  // see asmaes.sourceforge.net/rijndael/rijndaelImplementation.pdf
+static shiftRows(s, Nb) {
+    const t = new Array(4);
+    for (let r = 1; r < 4; r++) {
+        for (let c = 0; c < 4; c++) t[c] = s[r][(c + r) % Nb];
+        for (let c = 0; c < 4; c++) s[r][c] = t[c];
     }
+    return s;
+}
 
 
     /**
