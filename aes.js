@@ -128,26 +128,28 @@ class Aes {
      *
      * @private
      */
-    static mixColumns(s, Nb) {
-        for (let c=0; c<Nb; c++) {
-            const a = new Array(Nb);  // 'a' is a copy of the current column from 's'
-            const b = new Array(Nb);  // 'b' is a•{02} in GF(2^8)
-            for (let r=0; r<4; r++) {
-                a[r] = s[r][c];
-                b[r] = s[r][c]&0x80 ? s[r][c]<<1 ^ 0x011b : s[r][c]<<1;
-            }
-            // a[n] ^ b[n] is a•{03} in GF(2^8)
-            s[0][c] = b[0] ^ a[1] ^ b[1] ^ a[2] ^ a[3]; // {02}•a0 + {03}•a1 + a2 + a3
-            s[1][c] = a[0] ^ b[1] ^ a[2] ^ b[2] ^ a[3]; // a0 • {02}•a1 + {03}•a2 + a3
-            s[2][c] = a[0] ^ a[1] ^ b[2] ^ a[3] ^ b[3]; // a0 + a1 + {02}•a2 + {03}•a3
-            s[3][c] = a[0] ^ b[0] ^ a[1] ^ a[2] ^ b[3]; // {03}•a0 + a1 + a2 + {02}•a3
+static mixColumns(s, Nb) {
+    const a = new Array(4);
+    const b = new Array(4);
+
+    for (let c = 0; c < Nb; c++) {
+        for (let r = 0; r < 4; r++) {
+            a[r] = s[r][c];
+            b[r] = s[r][c] & 0x80 ? (s[r][c] << 1) ^ 0x011b : s[r][c] << 1;
         }
-        return s;
+
+        s[0][c] = b[0] ^ a[1] ^ b[1] ^ a[2] ^ a[3];
+        s[1][c] = a[0] ^ b[1] ^ a[2] ^ b[2] ^ a[3];
+        s[2][c] = a[0] ^ a[1] ^ b[2] ^ a[3] ^ b[3];
+        s[3][c] = a[0] ^ b[0] ^ a[1] ^ a[2] ^ b[3];
     }
+
+    return s;
+}
 
 
     /**
-     * Xor Round Key into state S [§5.1.4].
+     * Xor Round Key into state S [5.1.4].
      *
      * @private
      */
