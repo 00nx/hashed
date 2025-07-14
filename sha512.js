@@ -237,13 +237,12 @@ Sha512.Long = class {
         return hi + lo;
     }
 
-    add(that) { // addition modulo 2^64
-        const lo = this.lo + that.lo; // adds the low 32 bits of both instances
-        const hi = this.hi + that.hi + (lo>0xFFFFFFFF  ? 1 : 0); //add high part with carry, also added 0xFFFFFFFF for better reading
-
-        return new Sha512.Long(hi >>> 0, lo >>> 0);
-    }
-
+add(that) {
+    const lo = this.lo + that.lo;
+    const carry = lo >= 0x100000000 ? 1 : 0;
+    const hi = this.hi + that.hi + carry;
+    return new Sha512.Long(hi >>> 0, lo >>> 0);
+}
     and(that) { // &
         return new Sha512.Long(this.hi & that.hi, this.lo & that.lo);
     }
